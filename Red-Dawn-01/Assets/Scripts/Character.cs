@@ -32,7 +32,7 @@ public class Character : MonoBehaviour
     void Update()
     {
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.3f, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.5f, whatIsGround);
         animator.SetBool("isGrounded", isGrounded);
         animator.SetFloat("speedY", bodyCharacter.velocity.y);
 
@@ -41,7 +41,7 @@ public class Character : MonoBehaviour
         direction = Input.GetAxisRaw("Horizontal");
         bodyCharacter.velocity = new Vector2(direction * speed, bodyCharacter.velocity.y);
 
-        if ((direction < 0 && isLookingRight) || (direction > 0 && !isLookingRight))
+        if ((direction < 0 && !isLookingRight) || (direction > 0 && isLookingRight))
         {
             isLookingRight = !isLookingRight;
             transform.Rotate(0f, 180f, 0f);
