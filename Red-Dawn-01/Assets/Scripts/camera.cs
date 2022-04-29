@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class camera : MonoBehaviour
 {
-
     public Transform followTransform;
 
     void Update()

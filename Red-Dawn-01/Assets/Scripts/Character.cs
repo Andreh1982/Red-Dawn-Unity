@@ -2,55 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
-{
+public class Character : MonoBehaviour {
 
-    public Rigidbody2D bodyCharacter;
+public Rigidbody2D bodyCharacter;
 
-    private float direction;
-    public float speed;
-    public float jump;
+private float direction;
+public float speed;
+public float jump;
 
-    private bool isGrounded;
-    public Transform groundCheck;
-    public LayerMask whatIsGround;
+private bool isGrounded;
+public Transform groundCheck;
+public LayerMask whatIsGround;
 
-    private bool isLookingRight = true;
+private bool isLookingRight = true;
+private int doubleJump = 2;
 
-    public Animator animator;
+public Animator animator;
 
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    void Update() 
     {
-        
+        Move();
+        Jump();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Move() 
     {
-
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.5f, whatIsGround);
-        animator.SetBool("isGrounded", isGrounded);
-        animator.SetFloat("speedY", bodyCharacter.velocity.y);
-
-        animator.SetFloat("speed", Mathf.Abs(direction)); 
-
+        CheckFloor();
+        animator.SetFloat("speed", Mathf.Abs(direction));
         direction = Input.GetAxisRaw("Horizontal");
         bodyCharacter.velocity = new Vector2(direction * speed, bodyCharacter.velocity.y);
 
-        if ((direction < 0 && !isLookingRight) || (direction > 0 && isLookingRight))
-        {
+        if ((direction < 0 && !isLookingRight) || (direction > 0 && isLookingRight)) {
             isLookingRight = !isLookingRight;
             transform.Rotate(0f, 180f, 0f);
         }
+    }
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
+    void Jump() 
+    {
+        CheckFloor();
+        animator.SetBool("isGrounded", isGrounded);
+        animator.SetFloat("speedY", bodyCharacter.velocity.y);
+
+        if (doubleJump > 0 && Input.GetKeyDown(KeyCode.Space)) {
+            doubleJump--;
             bodyCharacter.velocity = Vector2.up * jump;
-        }
+        }  
+    }
 
+    void CheckFloor() 
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.5f, whatIsGround);
+        if (isGrounded) {
+            doubleJump = 2;
+        }
     }
 }
