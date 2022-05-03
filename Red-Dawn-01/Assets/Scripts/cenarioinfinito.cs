@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class cenarioinfinito : MonoBehaviour 
-
 {
   private Renderer myRenderer;
   private Material myMaterial;
@@ -29,5 +28,4 @@ public class cenarioinfinito : MonoBehaviour
         offSet += increase;
         myMaterial.SetTextureOffset("_MainTex", new Vector2((offSet * speed) / 1000, 0));
     }
-
 }

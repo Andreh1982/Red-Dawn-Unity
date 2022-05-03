@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour {
-
+public class Character : MonoBehaviour 
+{
 public Rigidbody2D bodyCharacter;
 
 private float direction;
@@ -21,6 +21,9 @@ public Animator animator;
 
     void Update() 
     {
+        Vector3 eulerRotation = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);
+        
         Move();
         Jump();
     }
@@ -46,7 +49,7 @@ public Animator animator;
 
         if (doubleJump > 0 && Input.GetKeyDown(KeyCode.Space)) {
             doubleJump--;
-            bodyCharacter.velocity = Vector2.up * jump;
+            bodyCharacter.AddForce(new Vector2(0, jump), ForceMode2D.Impulse);
         }  
     }
 
